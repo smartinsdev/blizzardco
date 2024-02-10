@@ -9,6 +9,7 @@ import { navItems } from "./nav-items";
 import { SiderBar } from "./SiderBar";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
+import { LoginButton } from "../auth/login-button";
 
 const cinzel = Cinzel({ subsets: ["latin"] });
 
@@ -91,13 +92,11 @@ export default function Header() {
             translate={navbarOpen ? "translate-x-0 " : "translate-x-full"}
           />
         </nav>
-        <Link
-          href="#"
-          className="hidden md:inline-block py-2 px-4 bg-primary  uppercase
-          text-primary-foreground rounded-md hover:bg-primary-foreground hover:text-primary transition ease-in-out duration-300 "
-        >
-          Entrar
-        </Link>
+        <LoginButton asChild mode="modal">
+          <Button variant="secondary" size="lg" className={cinzel.className}>
+            Sign in
+          </Button>
+        </LoginButton>
       </div>
     </header>
   );
