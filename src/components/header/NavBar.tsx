@@ -34,7 +34,7 @@ export default function Header() {
     <header
       className={cn(
         `fixed w-full z-20 transition duration-300 ease-in-out bg-transparent`,
-        isScrolling && "bg-background"
+        isScrolling && "bg-foreground"
       )}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center p-6 w-full">
@@ -49,17 +49,18 @@ export default function Header() {
             />
           </Link>
         </div>
-        <nav className="flex space-x-1">
-          <div className="hidden sm:flex space-x-1">
+        <nav className="flex">
+          <div className="hidden md:flex space-x-1">
             {navItems.map((item, index) => (
               <Link
                 key={index}
                 href={item.href}
                 className={cn(
-                  `inline-flex h-9 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium 
+                  `inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-xs md:text-sm lg:text-base font-medium 
                   transition-all hover:bg-accent hover:text-accent-foreground 
                   focus:bg-accent focus:text-accent-foreground focus:outline-none`,
-                  cinzel.className
+                  cinzel.className,
+                  isScrolling && "text-primary-foreground"
                 )}
               >
                 {item.name}
@@ -93,8 +94,11 @@ export default function Header() {
           />
         </nav>
         <LoginButton asChild mode="modal">
-          <Button variant="secondary" size="lg" className={cinzel.className}>
-            Sign in
+          <Button
+            size="lg"
+            className={cn("hidden sm:block font-bold", cinzel.className)}
+          >
+            Entrar
           </Button>
         </LoginButton>
       </div>
