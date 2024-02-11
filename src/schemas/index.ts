@@ -28,3 +28,7 @@ export const RegisterSchema = z.object({
       message: "Este campo deve conter apenas letras e números.",
     }),
 });
+
+export const RecaptcharSchema = z.object({
+  gRecaptchaToken: z.string(),
+});

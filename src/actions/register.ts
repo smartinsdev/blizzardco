@@ -1,10 +1,31 @@
 "use server";
 
-import { RegisterSchema } from "@/schemas";
 import { z } from "zod";
+import { db } from "@/lib/prisma";
+import { RegisterSchema } from "@/schemas";
+
+const verifyEndpoint = "https://www.google.com/recaptcha/api/siteverify";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validateFields = RegisterSchema.safeParse(values);
   if (!validateFields.success)
-    return { error: "Ops! As credenciais fornecidas são inválidas." };
+    return { message: "Ops! As credenciais fornecidas são inválidas." };
+
+  const { email, password, username } = validateFields.data;
+
+  const existingUser = await db.accounts.findUnique({
+    where: { username },
+  });
+
+  if (existingUser) return { message: "Ops! Está conta já está criada" };
+
+  await db.accounts.create({
+    data: {
+      username,
+      email,
+      password,
+    },
+  });
+
+  return { message: "Bravo! Sua conta foi criada" };
 };

@@ -18,12 +18,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 import { RegisterSchema } from "@/schemas";
-import { FormError } from "@/components/form-error";
 import { register } from "@/actions/register";
+import { toast } from "sonner";
+
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { recaptcha } from "@/actions/recaptchar";
 
 export function RegisterForm() {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | undefined>("");
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -34,9 +37,19 @@ export function RegisterForm() {
   });
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    setError("");
-    startTransition(() => {
-      register(values).then((data) => setError(data?.error));
+    console.log("submit");
+
+    if (!executeRecaptcha) {
+      toast("Error ao executar o captchar");
+      return;
+    }
+
+    startTransition(async () => {
+      const gRecaptchaToken = await executeRecaptcha("inquirySubmit");
+      const recaptchaValid = await recaptcha({ gRecaptchaToken });
+      if (recaptchaValid.success) {
+        register(values).then((data) => toast(data?.message));
+      }
     });
   };
 
@@ -103,7 +116,6 @@ export function RegisterForm() {
               )}
             />
           </div>
-          {error && <FormError message={error} />}
           <Button type="submit" className="w-full" disabled={isPending}>
             Criar conta
           </Button>

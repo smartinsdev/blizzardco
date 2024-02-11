@@ -1,0 +1,586 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model accounts {
+  id           BigInt    @id @unique(map: "f43f43") @default(autoincrement())
+  username     String    @unique @default("") @db.VarChar(16)
+  password     String?   @default("") @db.VarChar(16)
+  email        String?   @default("") @db.VarChar(100)
+  state        BigInt?
+  earthID      String    @default("") @db.VarChar(20)
+  question     String?   @db.VarChar(100)
+  answer       String?   @db.VarChar(30)
+  country      String?   @db.VarChar(110)
+  city         String?   @db.VarChar(100)
+  ip           String?   @db.VarChar(100)
+  phone        String?   @db.VarChar(15)
+  online       Int?      @default(0) @db.TinyInt
+  name         String?   @default("") @db.VarChar(16)
+  entityId     BigInt?   @default(0) @db.UnsignedBigInt
+  macs         String?   @db.VarChar(220)
+  bannedId     BigInt?   @default(2)
+  code         String?   @db.VarChar(255)
+  mobileNumber String?   @db.VarChar(255)
+  securityCode String?   @db.VarChar(255)
+  creation     DateTime? @db.DateTime(6)
+  hwid         String?   @db.VarChar(255)
+
+  @@index([username], map: "ggg")
+}
+
+model accounts_copy2 {
+  ID           BigInt    @id @unique(map: "f43f43") @default(autoincrement())
+  Username     String    @default("") @db.VarChar(16)
+  Password     String?   @default("") @db.VarChar(16)
+  Email        String?   @default("") @db.VarChar(100)
+  State        BigInt?
+  EarthID      String    @default("") @db.VarChar(20)
+  Question     String?   @db.VarChar(100)
+  answer       String?   @db.VarChar(30)
+  Country      String?   @db.VarChar(110)
+  City         String?   @db.VarChar(100)
+  IP           String?   @db.VarChar(100)
+  phone        String?   @db.VarChar(15)
+  Online       Int?      @default(0) @db.TinyInt
+  Name         String?   @default("") @db.VarChar(16)
+  EntityID     BigInt?   @default(0) @db.UnsignedBigInt
+  macs         String?   @db.VarChar(220)
+  BannedID     BigInt?   @default(2)
+  Code         String?   @db.VarChar(255)
+  MobileNumber String?   @db.VarChar(255)
+  SecurityCode String?   @db.VarChar(255)
+  Creation     DateTime? @db.DateTime(6)
+  HWID         String?   @db.VarChar(255)
+
+  @@index([Username], map: "ggg")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model addlottery {
+  EntityID   Int?
+  EntityName String? @db.VarChar(50)
+  Map        String? @db.VarChar(20)
+  X          String? @db.VarChar(20)
+  Y          String? @db.VarChar(20)
+  Date       String? @db.Char(200)
+
+  @@ignore
+}
+
+model arena {
+  EntityID              Int     @id @unique(map: "myIndex") @default(0) @db.UnsignedInt
+  EntityName            String  @default("") @db.VarChar(45)
+  ArenaPoints           Int?    @default(0) @db.UnsignedInt
+  ActivityPoints        Int?    @default(0) @db.UnsignedInt
+  TodayWin              Int?    @default(0) @db.UnsignedInt
+  TodayBattles          Int?    @default(0) @db.UnsignedInt
+  TotalWin              Int?    @default(0) @db.UnsignedInt
+  TotalLose             Int?    @default(0) @db.UnsignedInt
+  CurrentHonor          Int?    @default(0) @db.UnsignedInt
+  HistoryHonor          Int?    @default(0) @db.UnsignedInt
+  LastSeasonRank        Int?    @default(0) @db.UnsignedInt
+  Level                 Int?    @default(0) @db.UnsignedInt
+  Class                 Int?    @default(0) @db.UnsignedInt
+  ArenaPointFill        BigInt? @default(0) @db.UnsignedBigInt
+  Model                 BigInt? @default(0) @db.UnsignedBigInt
+  LastSeasonArenaPoints BigInt? @default(0) @db.UnsignedBigInt
+  LastSeasonWin         Int?    @default(0) @db.UnsignedInt
+  LastSeasonLose        Int?    @default(0) @db.UnsignedInt
+  Hair                  BigInt?
+  Head                  BigInt?
+  Garment               BigInt?
+  LeftWeapon            BigInt?
+  LefttWeaponAccessory  BigInt?
+  RightWeapon           BigInt?
+  RightWeaponAccessory  BigInt?
+  MountArmor            BigInt?
+  Armor                 BigInt?
+  Wing                  BigInt?
+  WingPlus              BigInt?
+  Title                 BigInt?
+  Flag                  BigInt?
+  GuildName             String? @db.VarChar(40)
+  Frame                 Int?
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model arenareward {
+  EntityID    Int?
+  EntityName  String? @db.VarChar(45)
+  RankPlayers Int?
+  CPs         Int?
+  Loggs       String? @db.Char(200)
+
+  @@ignore
+}
+
+model atributes {
+  EntityID      Int     @id
+  EntityName    String? @db.VarChar(20)
+  VIPLevelStart String? @db.Char(200)
+  ExpireVIP     BigInt?
+}
+
+model banip {
+  IP       String  @id @default("") @db.VarChar(255)
+  Hours    BigInt?
+  StartBan BigInt?
+}
+
+model banmac {
+  UID      BigInt  @id
+  username String  @default("") @db.VarChar(16)
+  Hours    BigInt  @default(0) @db.UnsignedBigInt
+  StartBan BigInt  @default(0) @db.UnsignedBigInt
+  Reason   String  @default("") @db.VarChar(255)
+  Mac      String? @db.VarChar(255)
+  IP       String? @db.VarChar(255)
+}
+
+model banned {
+  UID      BigInt @id
+  username String @default("") @db.VarChar(16)
+  Hours    BigInt @default(0) @db.UnsignedBigInt
+  StartBan BigInt @default(0) @db.UnsignedBigInt
+  Reason   String @default("") @db.VarChar(255)
+}
+
+model chatbanned {
+  EntityID   Int     @id
+  EntityName String? @db.VarChar(20)
+  Reason     String? @db.Char(255)
+  Hours      String? @db.VarChar(20)
+  StartBan   String? @db.Char(200)
+  Date       String? @db.Char(20)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model citywar {
+  Name              String? @db.VarChar(50)
+  City              String? @db.Char(255)
+  ParticipantsCount Int?
+  Date              String? @db.Char(255)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model claimitems {
+  ItemUID           BigInt  @default(0)
+  Date              BigInt?
+  ConquerPointsCost Int?
+  OwnerUID          BigInt?
+  OwnerName         String? @db.VarChar(45)
+  GainerUID         BigInt?
+  GainerName        String? @db.VarChar(45)
+
+  @@ignore
+}
+
+model clans {
+  Identifier   BigInt  @id @unique(map: "myIndex")
+  LeaderId     Int
+  Name         String  @db.VarChar(32)
+  Fund         BigInt?
+  Announcement String  @db.VarChar(255)
+  BPTower      Int
+  Level        Int
+  LeaderName   String  @db.VarChar(32)
+  polekeeper   Int
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model colog_logins {
+  ID         Int?
+  Date       DateTime? @db.DateTime(0)
+  UserID     Int?
+  ActionType Int?
+  IPAddress  String?   @db.VarChar(20)
+  MacAddress String?   @db.Char(200)
+  HWID       String?   @db.Char(200)
+
+  @@ignore
+}
+
+model configuration {
+  EntityID      BigInt  @default(1000000) @db.UnsignedBigInt
+  Server        String  @id @default("") @db.VarChar(30)
+  PlayersOnline BigInt? @default(0)
+  Online        String? @db.VarChar(255)
+  GWWinner      String? @db.VarChar(255)
+  EGWWinner     String? @db.VarChar(255)
+  ClanWinner    String? @db.VarChar(255)
+  MaxOnline     String? @db.VarChar(255)
+  LastChar      String? @db.VarChar(255)
+  CTFWinner     String? @db.VarChar(255)
+  CityWar       String? @db.VarChar(255)
+}
+
+model cpanal {
+  id            Int     @id @default(autoincrement())
+  Website       String? @db.VarChar(255)
+  Title         String? @db.Text
+  URL           String? @db.VarChar(255)
+  VERSION       BigInt?
+  Drop          BigInt?
+  Max_Level     BigInt?
+  Max_Plus      BigInt?
+  LATEST_VIDEOS String? @db.Text
+}
+
+model cq_generator {
+  id           Int @id @default(autoincrement())
+  mapid        Int @default(0)
+  bound_x      Int @default(0)
+  bound_y      Int @default(0)
+  bound_cx     Int @default(0)
+  bound_cy     Int @default(0)
+  maxnpc       Int @default(0)
+  rest_secs    Int @default(0)
+  max_per_gen  Int @default(0)
+  npctype      Int @default(0)
+  timer_begin  Int @default(0)
+  timer_end    Int @default(0)
+  born_x       Int @default(0)
+  born_y       Int @default(0)
+  mask         Int @default(0) @db.TinyInt
+  cluster_type Int @default(0) @db.UnsignedTinyInt
+  attribute    Int @default(0) @db.UnsignedInt
+  data         Int @default(0)
+
+  @@index([mapid], map: "mapid")
+}
+
+model deityland {
+  EntityID    Int     @id
+  EntityName  String? @db.VarChar(30)
+  Jades       String? @db.VarChar(40)
+  MobsKiller  String? @db.VarChar(40)
+  RankPlayers String? @db.VarChar(40)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model detaineditems {
+  ItemUID           BigInt
+  OwnerUID          BigInt?
+  Date              BigInt?
+  ConquerPointsCost Int?
+  OwnerName         String? @db.VarChar(45)
+  GainerUID         BigInt?
+  GainerName        String? @db.VarChar(45)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model dropitem {
+  EntityID   Int
+  EntityName String? @db.VarChar(45)
+  InfoItem   String? @db.Char(255)
+  Map        Int?
+  X          Int?
+  Y          Int?
+  Date       String? @db.Char(65)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model flooritemdrop {
+  EntityID   Int
+  EntityName String? @db.VarChar(45)
+  InfoItem   String? @db.Char(255)
+  Map        Int?
+  X          Int?
+  Y          Int?
+  Date       String? @db.Char(65)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model genesiscoin {
+  EntityID   Int?
+  EntityName String? @db.VarChar(40)
+  Type       String? @db.Char(250)
+  Amount     String? @db.VarChar(60)
+  Date       String? @db.Char(60)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model log_payments {
+  username String?   @db.VarChar(255)
+  name     String?   @db.VarChar(255)
+  log      String?   @db.VarChar(5000)
+  date     DateTime? @db.DateTime(0)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model loggsdeity {
+  EntityName String? @db.VarChar(30)
+  HowMuch    String? @db.VarChar(40)
+  Date       String? @db.Char(200)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model loggsitems {
+  EntityID           Int?
+  GainerName         String? @db.VarChar(20)
+  OwnerName          String? @db.VarChar(20)
+  Date               String? @db.Char(255)
+  Item               String? @db.Char(255)
+  ClaimConquerPoints String? @db.VarChar(20)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model loggsredeemgear {
+  EntityID           Int?
+  GainerName         String? @db.VarChar(20)
+  OwnerName          String? @db.VarChar(20)
+  Date               String? @db.Char(255)
+  Item               String? @db.Char(255)
+  ClaimConquerPoints String? @db.VarChar(20)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model macs {
+  UID           Int
+  MacAddress    String? @db.Char(200)
+  LastUpdate    String? @db.Char(200)
+  ComputerIdlen String? @db.VarChar(20)
+
+  @@ignore
+}
+
+model monsterspawns {
+  id          Int  @id
+  mapid       Int  @default(0)
+  bound_x     Int? @default(0)
+  bound_y     Int? @default(0)
+  bound_cx    Int?
+  bound_cy    Int?
+  maxnpc      Int?
+  rest_secs   Int?
+  max_per_gen Int?
+  npctype     Int?
+  timer_begin Int?
+  timer_end   Int?
+  born_x      Int?
+  born_y      Int?
+
+  @@index([mapid], map: "mapid")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model monstertime {
+  UID   Int?
+  Name  String? @db.Char(60)
+  Hour  String? @db.VarChar(40)
+  Min   String? @db.VarChar(40)
+  MapID Int?
+  X     String? @db.VarChar(40)
+  Y     String? @db.VarChar(40)
+  DyMap String? @db.VarChar(40)
+  Type  String? @db.VarChar(40)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model msgbet {
+  EntityID  Int?
+  Name      String? @db.VarChar(30)
+  Win       String? @db.Char(40)
+  Bet       String? @db.Char(40)
+  BetSystem String? @db.Char(50)
+  Date      String? @db.Char(200)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model msglog {
+  Name         String  @default("") @db.VarChar(20)
+  NameTarget   String  @default("0") @db.VarChar(20)
+  Message      String  @default("0") @db.Char(255)
+  Mesh         String? @db.VarChar(20)
+  EntityTarget String? @db.VarChar(20)
+  Frame        String? @db.VarChar(20)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model msgmessage {
+  Date       String? @db.Char(255)
+  EntityID   Int?
+  EntityName String? @db.VarChar(255)
+  Map        Int?
+  X          Int?
+  Y          Int?
+  ChatType   Int?
+  ChatTarget String? @db.Char(20)
+  Value      String? @db.Char(255)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model namechange {
+  EntityID Int
+  OldName  String? @db.VarChar(25)
+  NewName  String? @db.VarChar(25)
+  Date     String? @db.Char(255)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model navidad {
+  EntityID   String? @db.VarChar(25)
+  EntityName String? @db.VarChar(25)
+  Type       String? @db.Char(50)
+  Amount     String? @db.VarChar(50)
+  Date       String? @db.Char(50)
+
+  @@ignore
+}
+
+model payments {
+  username       String?   @db.VarChar(255)
+  txn_id         BigInt    @id @default(autoincrement())
+  item_number    Int?
+  item_name      String?   @db.VarChar(255)
+  Date           DateTime? @db.DateTime(0)
+  claimed        Int?      @default(0)
+  payment_gross  String?   @db.VarChar(255)
+  mc_gross       String?   @db.VarChar(255)
+  payer_id       String?   @db.VarChar(255)
+  payment_date   String?   @db.VarChar(255)
+  payment_status String?   @db.VarChar(255)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model report {
+  EntityID Int?
+  Name     String? @db.VarChar(20)
+  Report   String? @db.Char(200)
+  Date     String? @db.Char(200)
+
+  @@ignore
+}
+
+model servers {
+  Name         String  @id @default("") @db.VarChar(16)
+  IP           String? @db.VarChar(16)
+  Port         Int?    @db.UnsignedInt
+  TransferKey  String  @db.VarChar(64)
+  TransferSalt String  @db.VarChar(64)
+}
+
+model shop {
+  name_item  String  @db.VarChar(255)
+  value_item String  @db.VarChar(255)
+  desc_item  String? @db.Text
+  img_item   String? @db.VarChar(100)
+  product_id Int     @id @default(autoincrement())
+  button_id  String? @db.VarChar(100)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model shopvendor {
+  Vendor     String? @db.VarChar(20)
+  VendorName String? @db.VarChar(30)
+  Buying     String? @db.VarChar(20)
+  BuyingName String? @db.VarChar(30)
+  Cost       String? @db.Char(10)
+  Items      String? @db.Char(255)
+
+  @@ignore
+}
+
+model topgarments {
+  EntityID BigInt @id
+  Name     String @default("") @db.Char(255)
+  Valor    String @default("0") @db.Char(255)
+}
+
+model topservers {
+  EntityID    BigInt  @id
+  Name        String  @default("") @db.Char(255)
+  Money       String  @default("0") @db.Char(255)
+  CPs         String  @default("0") @db.Char(255)
+  GuildName   String? @db.Char(255)
+  MoneySave   String  @default("0") @db.Char(255)
+  Mesh        Int     @default(0) @db.SmallInt
+  Avatar      Int     @default(0) @db.SmallInt
+  GenesisCoin String  @db.Char(255)
+  AutoHunting String  @default("0") @db.Char(255)
+  Status      String  @default("0") @db.Char(255)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tournament_rewards {
+  CTFChampionConquerPoints Int?
+  CTF2ndConquerPoints      Int?
+  CTF3ndConquerPoints      Int?
+  CTFChampionMoney         Int?
+  CTF3ndMoney              Int?
+  CTF2ndMoney              Int?
+  RewardEventsCityCPs      Int?
+  RewardEventsCityMoney    Int?
+  RewardMoneyGuildwar      Int?
+  RewardCPsGuildwar        Int?
+  RewardCPsDragonWar       Int?
+  PremioHombre             Int?
+  RewardCPsElitetop1       Int?
+  RewardCPsElitetop2       Int?
+  RewardCPsElitetop3       Int?
+  RewardCPsElitetop8       Int?
+  TeamPKTop1               Int?
+  TeamPKTop2               Int?
+  TeamPKTop3               Int?
+  TeamPKTop8               Int?
+  TopBoss1                 Int?
+  TopBoss2                 Int?
+  TopBoss3                 Int?
+  SpouseWar                Int?
+  CityWar                  Int?
+  LastPatchLink            String? @db.Char(255)
+
+  @@ignore
+}
+
+model viplevel {
+  EntityID      Int     @id
+  EntityName    String? @db.VarChar(20)
+  VIPLevelStart String? @db.Char(200)
+  ExpireVIP     BigInt?
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model wadrobe {
+  EntityID   Int?
+  EntityName String? @db.VarChar(25)
+  ItemLoggs  String? @db.Char(255)
+  Date       String? @db.Char(200)
+  ActionID   String? @db.Char(15)
+
+  @@ignore
+}
