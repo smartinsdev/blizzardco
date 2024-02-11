@@ -1,4 +1,15 @@
 import Image from "next/image";
+
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Cinzel } from "next/font/google";
+import { Bangers } from "next/font/google";
+import Link from "next/link";
+
+const bangers = Bangers({ subsets: ["latin"], weight: "400" });
+
+const cinzel = Cinzel({ subsets: ["latin"] });
+
 import dropBox from "../../assets/dropbox-1.svg";
 import megaLogo from "../../assets/mega-icon.svg";
 import fourShared from "../../assets/4shared.png";
@@ -6,38 +17,43 @@ import adobeLogo from "../../assets/adobe-svgrepo-com.svg";
 
 export default function Download() {
   return (
-    <main className="min-h-screen relative bg-1">
+    <main className="min-h-screen relative trojan">
       <div className="flex justify-center text-zinc-300 items-center pt-40">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl xl:text-7x font-bold leading-tight tracking-tight font-cinzel">
+        <h1
+          className={cn(
+            "text-3xl sm:text-4xl md:text-5xl xl:text-7x font-bold leading-tight tracking-tight",
+            bangers.className
+          )}
+        >
           Baixe nosso cliente
         </h1>
       </div>
-      <section className="max-w-7xl mx-auto px-4 py-20 font-roboto text-zinc-300">
-        <h2 className="pt-10 mb-10 text-2xl font-bold tracking-tighter text-zinc-200 md:text-4xl">
+      <section className={cn("max-w-7xl mx-auto px-4 py-20", cinzel.className)}>
+        <h2 className="pt-10 mb-10 text-2xl font-bold tracking-tighter text-secondary md:text-4xl">
           Clients <span className="text-[#A57C3C]">.</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          <div className="bg-zinc-950 rounded-md p-6 shadow-md flex flex-col items-center space-y-5">
+          <div className=" rounded-md p-6 shadow-md flex flex-col items-center space-y-5">
             <h3 className="text-2xl font-semibold">DropBox</h3>
             <Image src={dropBox} alt="DropBox Logo" width={100} height={100} />
             <a
               href="#link-do-jogo"
-              className="bg-[#A57C3C] hover:bg-[#7A551F] text-[#ffffe9] py-2 px-4 rounded-md inline-block"
+              className="bg-background hover:bg-foreground text-primary hover:text-primary-foreground py-2 px-4 rounded-md inline-block"
             >
               Baixar Agora
             </a>
           </div>
-          <div className="bg-zinc-950 rounded-md p-6 shadow-md flex flex-col items-center space-y-5">
+          <div className="rounded-md p-6 shadow-md flex flex-col items-center space-y-5">
             <h3 className="text-2xl font-semibold">Mega</h3>
             <Image src={megaLogo} alt="DropBox Logo" width={100} height={100} />
             <a
               href="#link-do-jogo"
-              className="bg-[#A57C3C] hover:bg-[#7A551F] text-[#ffffe9] py-2 px-4 rounded-md inline-block"
+              className="bg-background hover:bg-foreground text-primary hover:text-primary-foreground py-2 px-4 rounded-md inline-block"
             >
               Baixar Agora
             </a>
           </div>
-          <div className="bg-zinc-950 rounded-md p-6 shadow-md flex flex-col items-center space-y-5">
+          <div className=" rounded-md p-6 shadow-md flex flex-col items-center space-y-5">
             <h3 className="text-2xl font-semibold">4shared</h3>
             <Image
               src={fourShared}
@@ -47,19 +63,19 @@ export default function Download() {
             />
             <a
               href="#link-do-jogo"
-              className="bg-[#A57C3C] hover:bg-[#7A551F] text-[#ffffe9] py-2 px-4 rounded-md inline-block"
+              className="bg-background hover:bg-foreground text-primary hover:text-primary-foreground py-2 px-4 rounded-md inline-block"
             >
               Baixar Agora
             </a>
           </div>
         </div>
       </section>
-      <section className="max-w-7xl mx-auto px-4 py-20 font-roboto text-zinc-300">
-        <h2 className="pt-10 mb-10 text-2xl font-bold tracking-tighter text-zinc-200 md:text-4xl">
+      <section className={cn("max-w-7xl mx-auto px-4 py-20", cinzel.className)}>
+        <h2 className="pt-10 mb-10 text-2xl font-bold tracking-tighter text-secondary md:text-4xl">
           Patch e Programas úteis <span className="text-[#A57C3C]">.</span>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <div className="bg-zinc-950 rounded-md p-6 shadow-md flex flex-col items-center space-y-5">
+          <div className="rounded-md p-6 shadow-md flex flex-col items-center space-y-5">
             <h3 className="text-2xl font-semibold">Patch</h3>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -78,12 +94,12 @@ export default function Download() {
 
             <a
               href="#link-do-jogo"
-              className="bg-[#A57C3C] hover:bg-[#7A551F] text-[#ffffe9] py-2 px-4 rounded-md inline-block"
+              className="bg-background hover:bg-foreground text-primary hover:text-primary-foreground py-2 px-4 rounded-md inline-block"
             >
               Baixar Agora
             </a>
           </div>
-          <div className="bg-zinc-950 rounded-md p-6 shadow-md flex flex-col items-center space-y-5">
+          <div className=" rounded-md p-6 shadow-md flex flex-col items-center space-y-5">
             <h3 className="text-2xl font-semibold">Adobe Flash Player</h3>
             <Image
               src={adobeLogo}
@@ -93,7 +109,7 @@ export default function Download() {
             />
             <a
               href="#link-do-jogo"
-              className="bg-[#A57C3C] hover:bg-[#7A551F] text-[#ffffe9] py-2 px-4 rounded-md inline-block"
+              className="bg-background hover:bg-foreground text-primary hover:text-primary-foreground py-2 px-4 rounded-md inline-block"
             >
               Baixar Agora
             </a>
