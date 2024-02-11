@@ -82,4 +82,10 @@
     background-size: cover;
     background-position: center;
   }
+  .dragon {
+    background-image: url("../assets/dragon.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
 }

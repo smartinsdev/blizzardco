@@ -17,22 +17,23 @@ import { CardBox } from "@/components/auth/card-box";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import { LoginSchema } from "@/schemas";
+import { RegisterSchema } from "@/schemas";
 import { FormError } from "@/components/form-error";
 import { login } from "@/actions/login";
 
-export function LoginForm() {
+export function RegisterForm() {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       username: "",
       password: "",
+      email: "",
     },
   });
 
-  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError("");
     startTransition(() => {
       login(values).then((data) => setError(data?.error));
@@ -41,9 +42,9 @@ export function LoginForm() {
 
   return (
     <CardBox
-      headerLabel="Bem vindo de volta conquistador"
-      backButtonLabel="Você ainda não tem uma conta?"
-      backButtonHref="/auth/register"
+      headerLabel="Bem vindo conquistador, aqui vamos começar sua jornada"
+      backButtonLabel="Você já tem uma conta?"
+      backButtonHref="/auth/login"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -83,10 +84,28 @@ export function LoginForm() {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="Digite o seu email"
+                      type="email"
+                      disabled={isPending}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           {error && <FormError message={error} />}
           <Button type="submit" className="w-full" disabled={isPending}>
-            Entrar
+            Criar conta
           </Button>
         </form>
       </Form>

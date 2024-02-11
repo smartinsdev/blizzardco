@@ -18,7 +18,7 @@ import adobeLogo from "../../assets/adobe-svgrepo-com.svg";
 export default function Download() {
   return (
     <main className="min-h-screen relative trojan">
-      <div className="flex justify-center text-zinc-300 items-center pt-40">
+      <div className="flex justify-center items-center pt-40">
         <h1
           className={cn(
             "text-3xl sm:text-4xl md:text-5xl xl:text-7x font-bold leading-tight tracking-tight",

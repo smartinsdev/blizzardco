@@ -49,7 +49,7 @@ export default function Header() {
             />
           </Link>
         </div>
-        <nav className="flex">
+        <nav className="flex justify-between items-center">
           <div className="hidden md:flex space-x-1">
             {navItems.map((item, index) => (
               <Link
@@ -93,7 +93,7 @@ export default function Header() {
             translate={navbarOpen ? "translate-x-0 " : "translate-x-full"}
           />
         </nav>
-        <LoginButton asChild mode="modal">
+        <LoginButton asChild mode="redirect">
           <Button
             size="lg"
             className={cn("hidden sm:block font-bold", cinzel.className)}

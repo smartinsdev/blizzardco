@@ -29,7 +29,7 @@ export default function Home() {
           </Link>
         </div>
       </section>
-      <section className="md:hidden py-40 px-20 flex flex-col items-center justify-center text-center max-w-7xl mx-auto">
+      <section className="md:hidden dragon py-40 px-20 flex flex-col items-center justify-center text-center max-w-7xl mx-auto">
         <h1
           className={cn(
             "scroll-m-20 text-4xl tracking-tight md:text-5xl lg:text-6xl text-center",
