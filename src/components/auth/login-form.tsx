@@ -22,13 +22,11 @@ import { LoginSchema } from "@/schemas";
 import { FormError } from "@/components/form-error";
 import { login } from "@/actions/login";
 
-import cookie from "cookie";
 import { toast } from "sonner";
 
 export function LoginForm() {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
-  const router = useRouter();
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -36,6 +34,8 @@ export function LoginForm() {
       password: "",
     },
   });
+
+  const router = useRouter();
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError("");

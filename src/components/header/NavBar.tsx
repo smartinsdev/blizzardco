@@ -10,12 +10,14 @@ import { SiderBar } from "./SiderBar";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { LoginButton } from "../auth/login-button";
+import { useSession } from "@/hooks/useSession";
 
 const cinzel = Cinzel({ subsets: ["latin"] });
 
 export default function Header() {
   const [isScrolling, setIsScrolling] = useState(false);
   const [navbarOpen, setNavbarOpen] = React.useState(false);
+  const { user } = useSession();
   const openAndCloseMenu = () => setNavbarOpen(!navbarOpen);
 
   useEffect(() => {
@@ -26,7 +28,6 @@ export default function Header() {
         setIsScrolling(false);
       }
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -93,14 +94,23 @@ export default function Header() {
             translate={navbarOpen ? "translate-x-0 " : "translate-x-full"}
           />
         </nav>
-        <LoginButton asChild mode="redirect">
+        {user?.username ? (
           <Button
             size="lg"
             className={cn("hidden sm:block font-bold", cinzel.className)}
           >
-            Entrar
+            {user.username}
           </Button>
-        </LoginButton>
+        ) : (
+          <LoginButton asChild mode="redirect">
+            <Button
+              size="lg"
+              className={cn("hidden sm:block font-bold", cinzel.className)}
+            >
+              Entrar
+            </Button>
+          </LoginButton>
+        )}
       </div>
     </header>
   );
