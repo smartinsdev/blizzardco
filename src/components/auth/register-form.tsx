@@ -37,8 +37,6 @@ export function RegisterForm() {
   });
 
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-    console.log("submit");
-
     if (!executeRecaptcha) {
       toast("Error ao executar o captchar");
       return;
@@ -48,8 +46,6 @@ export function RegisterForm() {
       const gRecaptchaToken = await executeRecaptcha("inquirySubmit");
       const recaptchaValid = await recaptcha({ gRecaptchaToken });
       if (recaptchaValid.success) {
-        console.log("passou no captcah");
-
         register(values).then((data) => toast(data?.message));
       }
     });
