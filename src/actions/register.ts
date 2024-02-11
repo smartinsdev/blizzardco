@@ -4,8 +4,6 @@ import { z } from "zod";
 import { db } from "@/lib/prisma";
 import { RegisterSchema } from "@/schemas";
 
-const verifyEndpoint = "https://www.google.com/recaptcha/api/siteverify";
-
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validateFields = RegisterSchema.safeParse(values);
   if (!validateFields.success)
