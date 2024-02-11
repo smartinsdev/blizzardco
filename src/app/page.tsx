@@ -22,7 +22,7 @@ export default function Home() {
             próximo desafio está à sua espera. Você está pronto para entrar na
             ação?
           </p>
-          <Link href="/register" passHref>
+          <Link href="/auth/register" passHref>
             <Button size="lg" className="mt-10 font-bold">
               Comece agora
             </Button>
@@ -43,7 +43,7 @@ export default function Home() {
           próximo desafio está à sua espera. Você está pronto para entrar na
           ação?
         </p>
-        <Link href="/register" passHref>
+        <Link href="/auth/register" passHref>
           <Button size="lg" className="mt-10 font-bold">
             Comece agora
           </Button>

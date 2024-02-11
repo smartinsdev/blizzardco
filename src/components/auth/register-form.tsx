@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 
 import { RegisterSchema } from "@/schemas";
 import { FormError } from "@/components/form-error";
-import { login } from "@/actions/login";
+import { register } from "@/actions/register";
 
 export function RegisterForm() {
   const [isPending, startTransition] = useTransition();
@@ -36,7 +36,7 @@ export function RegisterForm() {
   const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     setError("");
     startTransition(() => {
-      login(values).then((data) => setError(data?.error));
+      register(values).then((data) => setError(data?.error));
     });
   };
 
