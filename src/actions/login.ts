@@ -36,6 +36,12 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
     return { success: true, message: "" };
   } catch (error) {
-    if (error instanceof Error) return { message: "Internal Error" };
+    if (error instanceof Error) {
+      console.log(error.name);
+      console.log(error.cause);
+      console.log(error.message);
+
+      return { message: "Internal Error" };
+    }
   }
 };
