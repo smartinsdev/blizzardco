@@ -1,22 +1,21 @@
 import type { NextRequest } from "next/server";
-import { verifyToken } from "./lib/auth";
+import { getSession } from "./lib/auth";
 import { DEFAULT_LOGIN_REDIRECT, authRoutes, publicRoutes } from "./routes";
 
 export async function middleware(request: NextRequest) {
   const { nextUrl } = request;
-  const token = request.cookies.get("user-token")?.value;
-  const verifiedToken = token && (await verifyToken(token));
+  const session = await getSession();
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
   if (isAuthRoute) {
-    if (verifiedToken) {
+    if (session) {
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
     return null;
   }
 
-  if (!verifiedToken && !isPublicRoute) {
+  if (!session && !isPublicRoute) {
     let callbackUrl = nextUrl.pathname;
     if (nextUrl.search) {
       callbackUrl += nextUrl.search;

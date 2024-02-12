@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -40,14 +40,14 @@ export function LoginForm() {
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError("");
     startTransition(async () => {
-      login(values).then((data: any) => {
-        if (data?.success) {
-          router.push("/");
-        } else {
-          toast("Ops! Algo suas credenciais estão erradas, tente novamente!");
-          setError(data?.message);
-        }
-      });
+      const res = await login(values);
+      if (res.success) {
+        form.reset();
+        redirect("/");
+      } else {
+        setError(res.message);
+        form.reset();
+      }
     });
   };
 

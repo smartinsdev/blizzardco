@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { LoginButton } from "../auth/login-button";
 import { useSession } from "@/hooks/useSession";
+import { logout } from "@/actions/logout";
 
 const cinzel = Cinzel({ subsets: ["latin"] });
 
@@ -98,8 +99,9 @@ export default function Header() {
           <Button
             size="lg"
             className={cn("hidden sm:block font-bold", cinzel.className)}
+            onClick={logout}
           >
-            {user.username}
+            Logout
           </Button>
         ) : (
           <LoginButton asChild mode="redirect">

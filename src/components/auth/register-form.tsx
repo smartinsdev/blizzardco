@@ -46,7 +46,10 @@ export function RegisterForm() {
       const gRecaptchaToken = await executeRecaptcha("inquirySubmit");
       const recaptchaValid = await recaptcha({ gRecaptchaToken });
       if (recaptchaValid.success) {
-        register(values).then((data) => toast(data?.message));
+        register(values).then((data) => {
+          form.reset();
+          toast(data?.message);
+        });
       }
     });
   };

@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
-import { Cinzel } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/header/NavBar";
 import { Toaster } from "@/components/ui/sonner";
 
-const cinzel = Cinzel({ subsets: ["latin"] });
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700", "800", "600"],
+});
 
 export const metadata: Metadata = {
   title: "Blizzard Conquer",
@@ -19,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={cinzel.className}>
+      <body className={poppins.className}>
         <NavBar />
         {children}
 

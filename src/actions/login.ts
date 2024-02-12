@@ -1,7 +1,6 @@
 "use server";
 
-import { signToken } from "@/lib/auth";
-import { USER_TOKEN } from "@/lib/constants";
+import { encrypt } from "@/lib/auth";
 import { db } from "@/lib/prisma";
 import { LoginSchema } from "@/schemas";
 import { cookies } from "next/headers";
@@ -22,12 +21,17 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
     return { success: false, message: "Usuário ou senha Inválida" };
   }
 
-  const token = await signToken(user.username);
+  // Create the session
+  const expires = new Date(Date.now() + 10 * 1000);
+  const payload = { username: user.username, email: user.email };
+  const session = await encrypt({ payload, expires });
 
-  cookies().set(USER_TOKEN, token, {
+  // Save the session in a cookie
+  cookies().set("session", session, {
+    expires,
     httpOnly: true,
-    maxAge: 60 * 60 * 2, // 2 hours in seconds
+    secure: process.env.NODE_ENV === "production",
   });
 
-  return { success: true };
+  return { success: true, message: "" };
 };
