@@ -1,4 +1,5 @@
 // import { getSession } from "@/actions/getSession"
+import { getSession } from "@/lib/auth";
 import { useEffect, useState } from "react";
 
 type User = {
@@ -9,10 +10,7 @@ export function useSession() {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    // getSession().then((value) => {
-    //   if (!value) setUser(null);
-    //   setUser({ username: value! });
-    // });
+    //  getSession().then(data => )
   }, []);
 
   return { user };

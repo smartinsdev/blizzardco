@@ -11,6 +11,11 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   const { email, password, username } = validateFields.data;
 
+  if (!email || !password || !username)
+    return {
+      message: "Sem dados para enviar",
+    };
+
   try {
     const existingUser = await db.accounts.findUnique({
       where: { username },
