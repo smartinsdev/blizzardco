@@ -11,19 +11,23 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   const { email, password, username } = validateFields.data;
 
-  const existingUser = await db.accounts.findUnique({
-    where: { username },
-  });
+  try {
+    const existingUser = await db.accounts.findUnique({
+      where: { username },
+    });
 
-  if (existingUser) return { message: "Ops! Está conta já está criada" };
+    if (existingUser) return { message: "Ops! Está conta já está criada" };
 
-  await db.accounts.create({
-    data: {
-      username,
-      email,
-      password,
-    },
-  });
+    await db.accounts.create({
+      data: {
+        username,
+        email,
+        password,
+      },
+    });
 
-  return { message: "Bravo! Sua conta foi criada" };
+    return { message: "Bravo! Sua conta foi criada" };
+  } catch (error) {
+    if (error instanceof Error) return { message: error.message };
+  }
 };
