@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { db } from "@/lib/prisma";
 import { RegisterSchema } from "@/schemas";
+import { PrismaClient } from "@prisma/client";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validateFields = RegisterSchema.safeParse(values);
@@ -12,7 +13,14 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const { email, password, username } = validateFields.data;
 
   try {
-    await db.$connect();
+    const prisma = new PrismaClient({
+      datasources: {
+        db: {
+          url: process.env.DATABASE_URL,
+        },
+      },
+    });
+    await prisma.$connect();
     // const existingUser = await db.accounts.findUnique({
     //   where: { username },
     // });
