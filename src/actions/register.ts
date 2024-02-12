@@ -28,6 +28,6 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
     return { message: "Bravo! Sua conta foi criada" };
   } catch (error) {
-    if (error instanceof Error) return { message: error.message };
+    if (error instanceof Error) return { message: "Internal Error" };
   }
 };

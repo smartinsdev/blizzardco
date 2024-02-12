@@ -41,11 +41,11 @@ export function LoginForm() {
     setError("");
     startTransition(async () => {
       const res = await login(values);
-      if (res.success) {
+      if (res?.success) {
         form.reset();
         redirect("/");
       } else {
-        setError(res.message);
+        setError(res?.message);
         form.reset();
       }
     });
