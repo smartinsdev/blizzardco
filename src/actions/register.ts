@@ -11,25 +11,21 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   const { email, password, username } = validateFields.data;
 
-  if (!email || !password || !username)
-    return {
-      message: "Sem dados para enviar",
-    };
-
   try {
-    const existingUser = await db.accounts.findUnique({
-      where: { username },
-    });
+    await db.$connect();
+    // const existingUser = await db.accounts.findUnique({
+    //   where: { username },
+    // });
 
-    if (existingUser) return { message: "Ops! Está conta já está criada" };
+    // if (existingUser) return { message: "Ops! Está conta já está criada" };
 
-    await db.accounts.create({
-      data: {
-        username,
-        email,
-        password,
-      },
-    });
+    // await db.accounts.create({
+    //   data: {
+    //     username,
+    //     email,
+    //     password,
+    //   },
+    // });
 
     return { message: "Bravo! Sua conta foi criada" };
   } catch (error) {
@@ -40,5 +36,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
       return { message: "Internal Error" };
     }
+  } finally {
+    await db.$disconnect();
   }
 };
