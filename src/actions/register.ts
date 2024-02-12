@@ -13,38 +13,24 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const { email, password, username } = validateFields.data;
 
   try {
-    const prisma = new PrismaClient({
-      datasources: {
-        db: {
-          url: process.env.DATABASE_URL,
-        },
+    const existingUser = await db.accounts.findUnique({
+      where: { username },
+    });
+
+    if (existingUser) return { message: "Ops! Está conta já está criada" };
+
+    await db.accounts.create({
+      data: {
+        username,
+        email,
+        password,
       },
     });
-    await prisma.$connect();
-    // const existingUser = await db.accounts.findUnique({
-    //   where: { username },
-    // });
-
-    // if (existingUser) return { message: "Ops! Está conta já está criada" };
-
-    // await db.accounts.create({
-    //   data: {
-    //     username,
-    //     email,
-    //     password,
-    //   },
-    // });
 
     return { message: "Bravo! Sua conta foi criada" };
   } catch (error) {
     if (error instanceof Error) {
-      console.log(error.name);
-      console.log(error.cause);
-      console.log(error.message);
-
       return { message: "Internal Error" };
     }
-  } finally {
-    await db.$disconnect();
   }
 };
