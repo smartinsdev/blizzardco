@@ -3,7 +3,14 @@
  * These routes do not require authentication
  * @type {string[]}
  */
-export const publicRoutes: string[] = ["/", "/download"];
+export const publicRoutes: string[] = [
+  "/",
+  "/download",
+  // Generated metadata route. It has no file extension, so the proxy matcher
+  // doesn't skip it the way it skips `/robots.txt` and `/sitemap.xml` — without
+  // this it answers 302 to the (always anonymous) social crawlers.
+  "/opengraph-image",
+];
 
 /**
  * An array of routes that are used for authentication

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import fourShared from "@/assets/4shared.png";
 import adobeLogo from "@/assets/adobe-svgrepo-com.svg";
@@ -5,6 +6,12 @@ import dropBox from "@/assets/dropbox-1.svg";
 import megaLogo from "@/assets/mega-icon.svg";
 import { bangers, cinzel } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
+
+export const metadata: Metadata = {
+  title: "Download",
+  description:
+    "Baixe o cliente de Blizzard Conquer, o patch e os programas necessários para jogar.",
+};
 
 export default function Download() {
   return (

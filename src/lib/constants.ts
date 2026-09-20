@@ -1,6 +1,14 @@
 export const SESSION_COOKIE_NAME = "session";
 
 /**
+ * Public origin of the site, used to build absolute URLs for metadata, the
+ * sitemap and robots.txt. Crawlers need a real host, so set
+ * NEXT_PUBLIC_SITE_URL wherever this is deployed.
+ */
+export const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+/**
  * Session lifetime, in seconds. Shared by the JWT `exp` claim and the cookie so
  * the two can never drift apart.
  */
