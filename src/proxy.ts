@@ -1,10 +1,10 @@
 import type { NextRequest } from "next/server";
-import { getSession } from "./lib/auth";
-import { DEFAULT_LOGIN_REDIRECT, authRoutes, publicRoutes } from "./routes";
+import { readSession, updateSession } from "./lib/auth";
+import { authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes } from "./routes";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { nextUrl } = request;
-  const session = await getSession();
+  const session = await readSession(request);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
@@ -15,7 +15,9 @@ export async function middleware(request: NextRequest) {
     return null;
   }
 
-  if (!session && !isPublicRoute) {
+  if (!session) {
+    if (isPublicRoute) return null;
+
     let callbackUrl = nextUrl.pathname;
     if (nextUrl.search) {
       callbackUrl += nextUrl.search;
@@ -28,7 +30,9 @@ export async function middleware(request: NextRequest) {
     );
   }
 
-  return null;
+  // Authenticated: push the expiry out so an active user is never signed out
+  // mid-session. Falls back to `null` (continue as-is) if renewal isn't needed.
+  return await updateSession(request, session);
 }
 
 export const config = {

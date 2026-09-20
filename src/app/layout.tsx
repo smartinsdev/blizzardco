@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
+import {
+  AuthActions,
+  AuthActionsFallback,
+} from "@/components/header/auth-actions";
 import NavBar from "@/components/header/NavBar";
 import { Toaster } from "@/components/ui/sonner";
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "700", "800", "600"],
-});
+import { poppins } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Blizzard Conquer",
   description:
-    "Embarque em uma jornada épica no mundo congelado de Blizzard Conquer, onde os guerreiros mais destemidos desafiam os elementos para forjar seu destino. Explore vastas terras geladas, enfrente inimigos poderosos e descubra segredos antigos enquanto busca se tornar uma lenda. Com gráficos deslumbrantes, jogabilidade envolvente e uma comunidade vibrante, Blizzard Conquer oferece uma experiência de jogo incomparável que vai deixar você ansioso por mais. Prepare-se para conquistar o frio e alcançar a grandeza em Blizzard Conquer!",
+    "Explore vastas terras geladas, enfrente inimigos poderosos e descubra segredos antigos. Crie sua conta e comece sua jornada em Blizzard Conquer.",
 };
 
 export default function RootLayout({
@@ -21,9 +21,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="pt-BR" className="dark">
       <body className={poppins.className}>
-        <NavBar />
+        <NavBar
+          authSlot={
+            <Suspense fallback={<AuthActionsFallback />}>
+              <AuthActions />
+            </Suspense>
+          }
+        />
         {children}
 
         <Toaster position="top-center" />

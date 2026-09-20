@@ -1,37 +1,35 @@
 "use client";
-import React, { useEffect, useState } from "react";
 
-import Image from "next/image";
 import Link from "next/link";
-import { Cinzel } from "next/font/google";
-
+import { useCallback, useEffect, useState } from "react";
+import { cinzel } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
 import { navItems } from "./nav-items";
 import { SiderBar } from "./SiderBar";
-import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import { LoginButton } from "../auth/login-button";
-import { useSession } from "@/hooks/useSession";
-import { logout } from "@/actions/logout";
 
-const cinzel = Cinzel({ subsets: ["latin"] });
-
-export default function Header() {
+/**
+ * `authSlot` is rendered on the server and passed in as a prop, which keeps the
+ * session out of this client component — and the login form out of the bundle
+ * every route loads.
+ */
+export default function Header({ authSlot }: { authSlot: React.ReactNode }) {
   const [isScrolling, setIsScrolling] = useState(false);
-  const [navbarOpen, setNavbarOpen] = React.useState(false);
-  const { user } = useSession();
-  const openAndCloseMenu = () => setNavbarOpen(!navbarOpen);
+  const [navbarOpen, setNavbarOpen] = useState(false);
+
+  const openAndCloseMenu = useCallback(
+    () => setNavbarOpen((open) => !open),
+    []
+  );
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolling(true);
-      } else {
-        setIsScrolling(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setIsScrolling(window.scrollY > 0);
+
+    // Passive: this listener never calls `preventDefault()`, so the browser
+    // doesn't have to wait for it before scrolling.
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
   return (
     <header
       className={cn(
@@ -40,27 +38,20 @@ export default function Header() {
       )}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center p-6 w-full">
-        <div className="w-12 h-12 rounded-full overflow-hidden">
-          <Link href="/" passHref>
-            <Image
-              src="/logo.webp"
-              alt="Logo Gods of Classic"
-              width={100}
-              height={100}
-              className="w-auto h-auto"
-            />
-          </Link>
-        </div>
+        <Link href="/" passHref>
+          <span className={`${cinzel.className} text-lg`}>BlizzarCO</span>
+        </Link>
+
         <nav className="flex justify-between items-center">
           <div className="hidden md:flex space-x-1">
-            {navItems.map((item, index) => (
+            {navItems.map((item) => (
               <Link
-                key={index}
+                key={item.href}
                 href={item.href}
                 className={cn(
-                  `inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-xs md:text-sm lg:text-base font-medium 
-                  transition-all hover:bg-accent hover:text-accent-foreground 
-                  focus:bg-accent focus:text-accent-foreground focus:outline-none`,
+                  `inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-xs md:text-sm lg:text-base font-medium
+                  transition-all hover:bg-accent hover:text-accent-foreground
+                  focus:bg-accent focus:text-accent-foreground focus:outline-hidden`,
                   cinzel.className,
                   isScrolling && "text-primary-foreground"
                 )}
@@ -70,11 +61,12 @@ export default function Header() {
             ))}
           </div>
 
-          <Button
+          <button
+            type="button"
             onClick={openAndCloseMenu}
-            className={cn(
-              "px-3 flex justify-center items-center sm:hidden z-40"
-            )}
+            aria-expanded={navbarOpen}
+            aria-label={navbarOpen ? "Fechar menu" : "Abrir menu"}
+            className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-3 text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 sm:hidden z-40"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -82,6 +74,7 @@ export default function Header() {
               fill="currentColor"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -90,29 +83,11 @@ export default function Header() {
                 d="M4 6h16M4 12h8m-8 6h16"
               />
             </svg>
-          </Button>
-          <SiderBar
-            translate={navbarOpen ? "translate-x-0 " : "translate-x-full"}
-          />
+          </button>
+          <SiderBar open={navbarOpen} onNavigate={openAndCloseMenu} />
         </nav>
-        {user?.username ? (
-          <Button
-            size="lg"
-            className={cn("hidden sm:block font-bold", cinzel.className)}
-            onClick={logout}
-          >
-            Logout
-          </Button>
-        ) : (
-          <LoginButton asChild mode="redirect">
-            <Button
-              size="lg"
-              className={cn("hidden sm:block font-bold", cinzel.className)}
-            >
-              Entrar
-            </Button>
-          </LoginButton>
-        )}
+
+        {authSlot}
       </div>
     </header>
   );

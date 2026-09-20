@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { redirect, useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-
+import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import type * as z from "zod";
+import { login } from "@/actions/login";
+import { CardBox } from "@/components/auth/card-box";
+import { FormError } from "@/components/form-error";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,19 +17,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { CardBox } from "@/components/auth/card-box";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-
 import { LoginSchema } from "@/schemas";
-import { FormError } from "@/components/form-error";
-import { login } from "@/actions/login";
-
-import { toast } from "sonner";
 
 export function LoginForm() {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
+  const router = useRouter();
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -35,15 +32,16 @@ export function LoginForm() {
     },
   });
 
-  const router = useRouter();
-
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError("");
     startTransition(async () => {
       const res = await login(values);
       if (res?.success) {
         form.reset();
-        redirect("/");
+        router.push("/");
+        // The header's session slot is rendered on the server, so re-fetching
+        // the tree is what switches it to "Logout".
+        router.refresh();
       } else {
         setError(res?.message);
         form.reset();
@@ -96,7 +94,7 @@ export function LoginForm() {
               )}
             />
           </div>
-          {error && <FormError message={error} />}
+          {error ? <FormError message={error} /> : null}
           <Button type="submit" className="w-full" disabled={isPending}>
             Entrar
           </Button>
