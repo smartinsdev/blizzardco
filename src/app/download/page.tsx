@@ -26,7 +26,7 @@ export default function Download() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           <div className=" rounded-md p-6 shadow-md flex flex-col items-center space-y-5">
             <h3 className="text-2xl font-semibold">DropBox</h3>
-            <Image src={dropBox} alt="DropBox Logo" width={100} height={100} />
+            <Image src={dropBox} alt="DropBox" width={100} height={100} />
             <a
               href="#link-do-jogo"
               className="bg-background hover:bg-foreground text-primary hover:text-primary-foreground py-2 px-4 rounded-md inline-block"
@@ -36,7 +36,7 @@ export default function Download() {
           </div>
           <div className="rounded-md p-6 shadow-md flex flex-col items-center space-y-5">
             <h3 className="text-2xl font-semibold">Mega</h3>
-            <Image src={megaLogo} alt="DropBox Logo" width={100} height={100} />
+            <Image src={megaLogo} alt="Mega" width={100} height={100} />
             <a
               href="#link-do-jogo"
               className="bg-background hover:bg-foreground text-primary hover:text-primary-foreground py-2 px-4 rounded-md inline-block"
@@ -46,12 +46,7 @@ export default function Download() {
           </div>
           <div className=" rounded-md p-6 shadow-md flex flex-col items-center space-y-5">
             <h3 className="text-2xl font-semibold">4shared</h3>
-            <Image
-              src={fourShared}
-              alt="DropBox Logo"
-              width={100}
-              height={100}
-            />
+            <Image src={fourShared} alt="4shared" width={100} height={100} />
             <a
               href="#link-do-jogo"
               className="bg-background hover:bg-foreground text-primary hover:text-primary-foreground py-2 px-4 rounded-md inline-block"
@@ -76,6 +71,7 @@ export default function Download() {
               stroke="currentColor"
               className="w-24 h-24 text-zinc-300"
             >
+              <title>Patch</title>
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -94,7 +90,7 @@ export default function Download() {
             <h3 className="text-2xl font-semibold">Adobe Flash Player</h3>
             <Image
               src={adobeLogo}
-              alt="DropBox Logo"
+              alt="Adobe Flash Player"
               width={100}
               height={100}
             />
