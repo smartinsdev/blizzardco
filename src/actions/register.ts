@@ -1,14 +1,22 @@
 "use server";
 
-import { z } from "zod";
+import type { z } from "zod";
+import { hashPassword } from "@/lib/password";
 import { db } from "@/lib/prisma";
 import { RegisterSchema } from "@/schemas";
-import { PrismaClient } from "@prisma/client";
 
-export const register = async (values: z.infer<typeof RegisterSchema>) => {
+type RegisterResult = { success: boolean; message: string };
+
+export const register = async (
+  values: z.infer<typeof RegisterSchema>
+): Promise<RegisterResult> => {
   const validateFields = RegisterSchema.safeParse(values);
-  if (!validateFields.success)
-    return { message: "Ops! As credenciais fornecidas são inválidas." };
+  if (!validateFields.success) {
+    return {
+      success: false,
+      message: "Ops! As credenciais fornecidas são inválidas.",
+    };
+  }
 
   const { email, password, username } = validateFields.data;
 
@@ -17,20 +25,22 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
       where: { username },
     });
 
-    if (existingUser) return { message: "Ops! Está conta já está criada" };
+    if (existingUser) {
+      return { success: false, message: "Ops! Está conta já está criada" };
+    }
 
     await db.accounts.create({
       data: {
         username,
         email,
-        password,
+        password: await hashPassword(password),
       },
     });
 
-    return { message: "Bravo! Sua conta foi criada" };
+    return { success: true, message: "Bravo! Sua conta foi criada" };
   } catch (error) {
-    if (error instanceof Error) {
-      return { message: "Internal Error" };
-    }
+    console.error("register failed", error);
+
+    return { success: false, message: "Internal Error" };
   }
 };

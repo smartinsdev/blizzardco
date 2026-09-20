@@ -10,7 +10,9 @@ datasource db {
 model accounts {
   id           BigInt    @id @unique(map: "f43f43") @default(autoincrement())
   username     String    @unique @default("") @db.VarChar(16)
-  password     String?   @default("") @db.VarChar(16)
+  /// Wide enough for a bcrypt hash (60 chars). Legacy rows may still hold a
+  /// plaintext password; those are re-hashed on the owner's next login.
+  password     String?   @default("") @db.VarChar(255)
   email        String?   @default("") @db.VarChar(100)
   state        BigInt?
   earthID      String    @default("") @db.VarChar(20)
