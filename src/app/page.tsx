@@ -7,10 +7,23 @@ export default function Home() {
   return (
     <main className={cn("min-h-screen bg-background", cinzel.className)}>
       <section className="relative hidden md:block">
-        <video autoPlay muted loop className="object-cover w-full h-full">
-          <source src="bg-video3.mp4" type="video/mp4" />
+        {/* The poster carries the first paint; the clip itself loads after.
+            `width`/`height` are the intrinsic size, so the box is reserved
+            before either arrives and nothing shifts. */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="none"
+          poster="/bg-poster.webp"
+          width={1280}
+          height={720}
+          className="object-cover w-full h-full"
+        >
+          <source src="/bg-video3.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div className="absolute inset-0 bg-black/40"></div>
         <div className="absolute top-[40%] left-[46%] -translate-x-1/2 flex flex-col items-center justify-center text-center max-w-7xl mx-auto">
           <p className="leading-7 [&:not(:first-child)]:mt-6 text-sm md:text-base lg:w-1/2 mx-auto">
             Prepare-se para explorar, competir e se divertir como nunca antes! O
