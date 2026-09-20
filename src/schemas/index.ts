@@ -13,7 +13,7 @@ export const LoginSchema = z.object({
 });
 
 export const RegisterSchema = z.object({
-  email: z.string().email({
+  email: z.email({
     message: "Este campo é obrigatório. Por favor, preencha-o.",
   }),
   password: z.string().min(5, {
