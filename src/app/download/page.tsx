@@ -1,19 +1,10 @@
 import Image from "next/image";
-
-import { Button } from "@/components/ui/button";
+import fourShared from "@/assets/4shared.png";
+import adobeLogo from "@/assets/adobe-svgrepo-com.svg";
+import dropBox from "@/assets/dropbox-1.svg";
+import megaLogo from "@/assets/mega-icon.svg";
+import { bangers, cinzel } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-import { Cinzel } from "next/font/google";
-import { Bangers } from "next/font/google";
-import Link from "next/link";
-
-const bangers = Bangers({ subsets: ["latin"], weight: "400" });
-
-const cinzel = Cinzel({ subsets: ["latin"] });
-
-import dropBox from "../../assets/dropbox-1.svg";
-import megaLogo from "../../assets/mega-icon.svg";
-import fourShared from "../../assets/4shared.png";
-import adobeLogo from "../../assets/adobe-svgrepo-com.svg";
 
 export default function Download() {
   return (

@@ -1,12 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Cinzel } from "next/font/google";
-import { Bangers } from "next/font/google";
 import Link from "next/link";
-
-const bangers = Bangers({ subsets: ["latin"], weight: "400" });
-
-const cinzel = Cinzel({ subsets: ["latin"] });
+import { Button } from "@/components/ui/button";
+import { bangers, cinzel } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
   return (
