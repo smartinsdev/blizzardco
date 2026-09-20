@@ -1,10 +1,14 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-
+import { useTransition } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type * as z from "zod";
+import { register } from "@/actions/register";
+import { CardBox } from "@/components/auth/card-box";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,16 +17,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { CardBox } from "@/components/auth/card-box";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-
 import { RegisterSchema } from "@/schemas";
-import { register } from "@/actions/register";
-import { toast } from "sonner";
-
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import { recaptcha } from "@/actions/recaptchar";
 
 export function RegisterForm() {
   const [isPending, startTransition] = useTransition();
@@ -43,13 +39,17 @@ export function RegisterForm() {
     }
 
     startTransition(async () => {
-      const gRecaptchaToken = await executeRecaptcha("inquirySubmit");
-      const recaptchaValid = await recaptcha({ gRecaptchaToken });
-      if (recaptchaValid.success) {
-        register(values).then((data) => {
-          form.reset();
-          toast(data?.message);
-        });
+      try {
+        const gRecaptchaToken = await executeRecaptcha("inquirySubmit");
+        // One round trip: the action verifies the token and creates the
+        // account. Awaited, so `isPending` covers the whole submission.
+        const data = await register(values, gRecaptchaToken);
+
+        if (data.success) form.reset();
+        toast(data.message);
+      } catch (error) {
+        console.error("register submission failed", error);
+        toast("Não foi possível concluir o cadastro. Tente novamente.");
       }
     });
   };

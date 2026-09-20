@@ -1,16 +1,15 @@
-import GoogleCaptchaWrapper from "@/app/GoogleCaptchaWrapper";
+import GoogleCaptchaWrapper from "@/components/auth/google-captcha-wrapper";
 import { RegisterForm } from "@/components/auth/register-form";
-import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 const RegisterPage = () => {
   return (
-    <GoogleCaptchaWrapper>
-      <main className="min-h-screen dragon">
-        <div className="flex justify-center items-center pt-40">
+    <main className="min-h-screen dragon">
+      <div className="flex justify-center items-center pt-40">
+        <GoogleCaptchaWrapper>
           <RegisterForm />
-        </div>
-      </main>
-    </GoogleCaptchaWrapper>
+        </GoogleCaptchaWrapper>
+      </div>
+    </main>
   );
 };
 
