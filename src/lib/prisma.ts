@@ -1,9 +1,22 @@
-import { PrismaClient } from "@prisma/client";
+import "server-only";
 
-declare global {
-  var prisma: PrismaClient | undefined;
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
+import { PrismaClient } from "@/generated/prisma/client";
+
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  throw new Error("The environment variable DATABASE_URL is not set.");
 }
 
-export const db = globalThis.prisma || new PrismaClient();
+// Prisma 7 talks to MySQL through a driver adapter instead of the Rust engine.
+const createPrismaClient = () =>
+  new PrismaClient({ adapter: new PrismaMariaDb(connectionString) });
+
+declare global {
+  var prisma: ReturnType<typeof createPrismaClient> | undefined;
+}
+
+export const db = globalThis.prisma ?? createPrismaClient();
 
 if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
