@@ -30,11 +30,9 @@ export default function Home() {
             próximo desafio está à sua espera. Você está pronto para entrar na
             ação?
           </p>
-          <Link href="/auth/register" passHref>
-            <Button size="lg" className="mt-10 font-bold">
-              Comece agora
-            </Button>
-          </Link>
+          <Button asChild size="lg" className="mt-10 font-bold">
+            <Link href="/auth/register">Comece agora</Link>
+          </Button>
         </div>
       </section>
       <section className="md:hidden dragon py-40 px-20 flex flex-col items-center justify-center text-center max-w-7xl mx-auto">
@@ -51,11 +49,9 @@ export default function Home() {
           próximo desafio está à sua espera. Você está pronto para entrar na
           ação?
         </p>
-        <Link href="/auth/register" passHref>
-          <Button size="lg" className="mt-10 font-bold">
-            Comece agora
-          </Button>
-        </Link>
+        <Button asChild size="lg" className="mt-10 font-bold">
+          <Link href="/auth/register">Comece agora</Link>
+        </Button>
       </section>
     </main>
   );

@@ -38,7 +38,7 @@ export default function Header({ authSlot }: { authSlot: React.ReactNode }) {
       )}
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center p-6 w-full">
-        <Link href="/" passHref>
+        <Link href="/">
           <span className={`${cinzel.className} text-lg`}>BlizzarCO</span>
         </Link>
 
