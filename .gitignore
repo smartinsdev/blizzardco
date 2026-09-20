@@ -38,3 +38,6 @@ next-env.d.ts
 
 # prisma generated client
 /src/generated/
+
+# generated symlinks into .agents/skills
+/.claude/
