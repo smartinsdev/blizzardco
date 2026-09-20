@@ -1,9 +1,18 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+import Link from "next/link";
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { LoginForm } from "@/components/auth/login-form";
+/**
+ * The modal branch pulls in `react-hook-form`, `zod`, the resolver and the
+ * Radix dialog. Loading it statically would put all of that in the bundle of
+ * every route, since the header renders this component app-wide and almost
+ * always in `redirect` mode. Deferring it keeps that cost on the path that
+ * actually opens a dialog.
+ */
+const LoginDialog = dynamic(() =>
+  import("./login-dialog").then((m) => m.LoginDialog)
+);
 
 interface LoginButtonProps {
   children: React.ReactNode;
@@ -16,26 +25,13 @@ export const LoginButton = ({
   mode = "redirect",
   asChild,
 }: LoginButtonProps) => {
-  const router = useRouter();
-
-  const onClick = () => {
-    router.push("/auth/login");
-  };
-
   if (mode === "modal") {
-    return (
-      <Dialog>
-        <DialogTrigger asChild={asChild}>{children}</DialogTrigger>
-        <DialogContent className="p-0 w-auto bg-transparent border-none">
-          <LoginForm />
-        </DialogContent>
-      </Dialog>
-    );
+    return <LoginDialog asChild={asChild}>{children}</LoginDialog>;
   }
 
   return (
-    <span onClick={onClick} className="cursor-pointer hidden sm:block">
+    <Link href="/auth/login" className="cursor-pointer hidden sm:block">
       {children}
-    </span>
+    </Link>
   );
 };
