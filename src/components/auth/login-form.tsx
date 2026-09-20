@@ -18,9 +18,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { LoginSchema } from "@/schemas";
 
-export function LoginForm() {
+/**
+ * `callbackUrl` is where the proxy wanted the visitor to land before it bounced
+ * them here. The page sanitizes it; the modal passes nothing and falls back to
+ * the default landing page.
+ */
+export function LoginForm({
+  callbackUrl = DEFAULT_LOGIN_REDIRECT,
+}: {
+  callbackUrl?: string;
+} = {}) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
   const router = useRouter();
@@ -38,7 +48,7 @@ export function LoginForm() {
       const res = await login(values);
       if (res?.success) {
         form.reset();
-        router.push("/");
+        router.push(callbackUrl);
         // The header's session slot is rendered on the server, so re-fetching
         // the tree is what switches it to "Logout".
         router.refresh();
